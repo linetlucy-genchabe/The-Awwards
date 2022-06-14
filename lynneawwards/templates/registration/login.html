@@ -1,8 +1,9 @@
-{% extends 'registration/base.html' %}{%load bootstrap5%} {% load static %} {% block title %} Login Page {% endblock %} {% block body %}
+{% extends 'registration/base.html' %}{%load bootstrap5%} {% load static %} {% block title %} Login Page {% endblock %} {% block content %}
 <div class="container mt-5 mb-3">
     <div class="row">
+        <div class="col-md-6 shadow" style="margin-left: 22%; margin-top:12%; padding-top:1%;padding-bottom:3%;">
         <h1>Sign Into Your Account</h1>
-        <form action="login/" method="POST">
+        <form action="{%url 'login'%}" method="POST">
             {% csrf_token %}
             <div class="container mt-5">
                 <div class="mb-3">
@@ -17,6 +18,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
+        </div>
     </div>
 </div>
 {% endblock %}

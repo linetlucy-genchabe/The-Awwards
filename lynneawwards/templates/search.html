@@ -1,4 +1,4 @@
-{%extends 'layout.html'%} {% load bootstrap5 %} {% block content %}
+{%extends 'base.html'%} {% load bootstrap5 %} {% block content %}
 
 <div class="">
 
@@ -38,7 +38,7 @@
                             </a>
                             {% else %}
                             <a href="/project/{{project_item.id}}">
-                                <img class="card-img-top" src="https://source.unsplash.com/1600x900/?fun,vacation" alt="{{ project_item.project_name }}">
+                                <img class="card-img-top" src="" alt="{{ project_item.project_name }}">
                             </a>
                             {% endif %}
 
