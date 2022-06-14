@@ -23,6 +23,6 @@ urlpatterns = [
     path('', include('lynneawwards.urls')),
     path('tinymce/', include('tinymce.urls')),
     # path(r'^accounts/', include('registration.backends.simple.urls')),
-    path('login/', views.LoginView.as_view(), name='signin'),
-    path('logout/', views.LogoutView.as_view(), name='signout'),
+    # path('login/', views.LoginView.as_view(), name='login'),
+    # path('logout/', views.LogoutView.as_view(), name='signout'),
 ]
