@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login,logout
-from .models import Profile
+from .models import Profile,Projects
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializer import ProfileSerializer, ProjectSerializer
@@ -18,53 +18,42 @@ from .forms import *
 
 
 def home(request):
-    return render (request, 'index.html')
+    projects = Projects.objects.all()
+    return render (request, 'index.html',{'projects':projects})
 
-def signin(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"] 
+def user_login(request):
+    if request.method =='POST':
+        username = request.POST['username']
+        password = request.POST['password']  
         
         user = authenticate (request,username=username,password=password)
         if user is not None:
             login(request,user)
-            messages.success(request,"You are successfuly logged in")
-            return redirect ("/")
-    return render (request, 'registration/login.html')
+            messages.success(request,"Welcome , you are now logged in")
+            return redirect ("home")
+    return render(request, 'registration/login.html')
+
+
+
 
 def register(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        first_name=request.POST["first_name"]
-        last_name=request.POST["last_name"]
-        email=request.POST["email"]
-        password1=request.POST["password1"]
-        password2=request.POST["password2"]
-
+    if request.method =='POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        username = request.POST['username']
+        email = request.POST['email']
+        password1 = request.POST['password1']
+        password2= request.POST['password2']
+        
         if password1 != password2:
-            messages.error(request,"Passwords do not match")
+            messages.error(request,"confirm your passwords")
             return redirect('/register')
-
-        new_user = User.objects.create_user(
-            username=username,
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            password=password1
-
-        )
+        
+        new_user = User.objects.create_user(first_name=first_name,last_name=last_name,username=username,email=email,password=password1)
+        
         new_user.save()
-
-        new_profile = Profile.objects.create(
-            user=new_user,
-            bio="",
-            profile_picture="",
-        )
-        new_profile.save()
         return render(request,'registration/login.html')
-
-    return render (request, 'registration/registration.html')
-
+    return render(request, 'registration/registration.html')
 
 def signout(request):
     logout(request)
@@ -115,7 +104,7 @@ def new_project(request):
             project = form.save(commit=False)
             project.Author = current_user
             project.save()
-        return redirect('index')
+        return redirect('/')
 
     else:
         form = NewProjectForm()

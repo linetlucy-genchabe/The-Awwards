@@ -8,15 +8,16 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.home),
+    path('', views.home , name='home'),
     path('register/',views.register),
-    path('login/',views.signin),
-    path('signout/',views.signout),
+    path('login/',views.user_login, name='login'),
+    path('logout/',views.signout),
     path('profile/',views.profile),
     path('search/', views.search_projects, name='search_results'),
-    path('project/(\d+)', views.get_project, name='project_results'),
+    path('project/<int:id>', views.get_project, name='project_results'),
     path('new/project', views.new_project, name='new-project'),
     path('accounts/profile/', views.user_profiles, name='profile'),
+    
     # path('ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
     path('api/projects/', views.ProjectList.as_view()),
     
